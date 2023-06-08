@@ -87,4 +87,4 @@ with open(report_filename, 'w') as f:
 subprocess.run(['dvc', 'add', report_filename])
 subprocess.run(['dvc', 'add', model_filename])
 subprocess.run(['dvc', 'commit', report_filename, model_filename])
-subprocess.run(['dvc', 'push'])
+# subprocess.run(['dvc', 'push'])
