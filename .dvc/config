@@ -1,0 +1,5 @@
+[core]
+    remote = origin
+    autostage = true
+['remote "origin"']
+    url = https://github.com/talveRinat/dl_frameworks_HW
