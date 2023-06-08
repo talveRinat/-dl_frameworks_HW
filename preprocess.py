@@ -6,6 +6,7 @@ from nltk.stem import WordNetLemmatizer
 import pandas as pd
 import numpy
 import numpy as np
+import dvc.api
 
 nltk.download('stopwords')
 nltk.download('wordnet')
@@ -74,22 +75,22 @@ def my_clean(text, stops=False, stemming=False):
 
 
 def load_data(preprocessed=True, stemming_a=True):
-    data = pd.read_csv(
-        "data/Ethos_Dataset_Binary.csv", delimiter=';')
-    np.random.seed(2000)
-    data = data.iloc[np.random.permutation(len(data))]
-    XT = data['comment'].values
-    X = []
-    yT = data['isHate'].values
-    y = []
-    for yt in yT:
-        if yt >= 0.5:
-            y.append(int(1))
-        else:
-            y.append(int(0))
-    for x in XT:
-        if preprocessed:
-            X.append(my_clean(text=str(x), stops=False, stemming=stemming_a))
-        else:
-            X.append(x)
-    return numpy.array(X), numpy.array(y)
+    with dvc.api.open('data/Ethos_Dataset_Binary.csv') as f:
+        data = pd.read_csv(f, delimiter=';')
+        np.random.seed(2000)
+        data = data.iloc[np.random.permutation(len(data))]
+        XT = data['comment'].values
+        X = []
+        yT = data['isHate'].values
+        y = []
+        for yt in yT:
+            if yt >= 0.5:
+                y.append(int(1))
+            else:
+                y.append(int(0))
+        for x in XT:
+            if preprocessed:
+                X.append(my_clean(text=str(x), stops=False, stemming=stemming_a))
+            else:
+                X.append(x)
+        return numpy.array(X), numpy.array(y)

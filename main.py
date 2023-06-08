@@ -1,7 +1,6 @@
 from preprocess import load_data
 
 import optuna
-import dvc.api
 import subprocess
 
 from sklearn.pipeline import Pipeline
@@ -13,6 +12,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 import joblib
 import json
 from datetime import datetime
+
 
 # Load and split data
 X, y = load_data(True)
@@ -69,11 +69,10 @@ joblib.dump(pipeline, model_filename)
 
 # Create a report
 report = {
+    'Model': 'Random Forest Classifier',
     'timestamp': timestamp,
     'best_params': best_params,
     'best_accuracy': best_accuracy,
-    'data_version': dvc.api.get_url('data/Ethos_Dataset_Binary.csv'),
-    'Model': 'Random Forest Classifier',
     'model_version': model_filename
 }
 
